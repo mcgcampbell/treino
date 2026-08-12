@@ -172,3 +172,26 @@ export async function exportarTudo() {
     registrosSeries,
   };
 }
+
+// ---- Restauração a partir de um backup ----
+
+const NOMES_STORES = ['exercicios', 'ciclos', 'modelosTreino', 'sessoes', 'registrosSeries'];
+
+async function limparStore(storeName) {
+  const store = await tx(storeName, 'readwrite');
+  return reqToPromise(store.clear());
+}
+
+// Substitui todo o conteúdo do banco pelos dados do backup, preservando os
+// ids originais (as referências entre sessão/exercício/série dependem disso).
+export async function restaurarTudo(dados) {
+  for (const nome of NOMES_STORES) {
+    await limparStore(nome);
+  }
+  for (const nome of NOMES_STORES) {
+    const registros = Array.isArray(dados[nome]) ? dados[nome] : [];
+    for (const registro of registros) {
+      await put(nome, registro);
+    }
+  }
+}

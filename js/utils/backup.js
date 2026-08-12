@@ -1,4 +1,4 @@
-import { exportarTudo } from '../db.js';
+import { exportarTudo, restaurarTudo } from '../db.js';
 
 // Retorna true se o backup foi entregue ao usuário (compartilhado ou baixado),
 // false se o usuário cancelou a caixa de compartilhamento.
@@ -32,4 +32,31 @@ export async function baixarBackup() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   return true;
+}
+
+const CHAVES_ESPERADAS = ['exercicios', 'ciclos', 'modelosTreino', 'sessoes', 'registrosSeries'];
+
+function pareceBackupValido(dados) {
+  return (
+    dados &&
+    typeof dados === 'object' &&
+    CHAVES_ESPERADAS.every((chave) => Array.isArray(dados[chave]))
+  );
+}
+
+// Lê um arquivo de backup (JSON exportado pelo próprio app) e substitui todo
+// o conteúdo do banco local por ele. Lança erro se o arquivo não for válido.
+export async function importarBackup(arquivo) {
+  const texto = await arquivo.text();
+  let dados;
+  try {
+    dados = JSON.parse(texto);
+  } catch {
+    throw new Error('O arquivo selecionado não é um JSON válido.');
+  }
+  if (!pareceBackupValido(dados)) {
+    throw new Error('Este arquivo não parece ser um backup do Treino.');
+  }
+  await restaurarTudo(dados);
+  return dados;
 }

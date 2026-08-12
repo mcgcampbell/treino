@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'treino-v1';
+const CACHE_VERSION = 'treino-v2';
 
 const ARQUIVOS_APP_SHELL = [
   './',
@@ -17,6 +17,7 @@ const ARQUIVOS_APP_SHELL = [
   './js/views/exercicios.js',
   './js/views/sessao.js',
   './js/views/historico.js',
+  './js/views/backup.js',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',

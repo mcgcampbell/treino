@@ -1,9 +1,10 @@
 import { getAll, getCicloAtivo, getRegistrosDaSessao } from '../db.js';
 import { el, formatarDataBR } from '../utils/ui.js';
-import { setTitulo, navegar } from '../app.js';
+import { setTitulo, setAcoesTopo, navegar } from '../app.js';
 
 export async function render(container) {
   setTitulo('Treino');
+  setAcoesTopo(el('button', { class: 'icone-somente', onClick: () => navegar('#/backup') }, '🗄️'));
 
   const [cicloAtivo, sessoes, modelos, ciclos] = await Promise.all([
     getCicloAtivo(),

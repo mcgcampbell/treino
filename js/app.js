@@ -31,6 +31,7 @@ const rotas = [
   { padrao: /^\/exercicios$/, modulo: () => import('./views/exercicios.js'), rota: '/exercicios' },
   { padrao: /^\/historico$/, modulo: () => import('./views/historico.js'), rota: '/historico' },
   { padrao: /^\/historico\/(\d+)$/, modulo: () => import('./views/historico.js'), rota: '/historico' },
+  { padrao: /^\/backup$/, modulo: () => import('./views/backup.js'), rota: '/backup' },
 ];
 
 async function roteirizar() {
