@@ -270,8 +270,8 @@ async function renderSessao(container, id) {
       {
         class: 'sucesso bloco',
         onClick: async () => {
-          await baixarBackup();
-          mostrarToast('Treino salvo e backup baixado');
+          const backupEntregue = await baixarBackup();
+          mostrarToast(backupEntregue ? 'Treino salvo e backup entregue' : 'Treino salvo (backup não concluído)');
           navegar('#/');
         },
       },
